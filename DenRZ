@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С днем рождения</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('background.jpg'); /* Я не сделал, сорян */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+      .link {
+    display: none;
+    font-size: 20px;
+    margin-top: 20px;
+    color: blue; 
+    text-decoration: none; 
+}
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative; 
+        }
+
+        .play-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: black;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            border-radius: 10px; /* Обводка не работает, не успел разобраться */
+        }
+
+        .play-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .question {
+            color: black;
+            font-size: 24px;
+            margin-top: 20px;
+            display: none; 
+            text-align: center;
+        }
+
+        .answer-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; 
+        }
+
+        .answer-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: black;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .answer-button:hover {
+            background-color: green;
+            color: white;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: #00f; 
+            font-size: 20px; 
+        }
+
+        .lose-button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            border-radius: 10px; 
+            display: none; 
+        }
+
+        .lose-button:hover {
+            background-color: darkred;
+        }
+
+        .check-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: black;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            border-radius: 10px; 
+        }
+
+        .check-button:hover {
+            background-color: green;
+            color: white;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px; 
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: black;
+            border: none;
+            color: white;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .back-button:hover {
+            background-color: darkgray;
+        }
+
+        .third-question {
+            text-align: center;
+            font-size: 24px; 
+            display: none; 
+            margin-top: 20px; 
+        }
+
+        .fourth-question {
+            text-align: center; 
+            font-size: 24px; 
+            display: none; 
+            margin-top: 20px; 
+        }
+
+        .fifth-question {
+            text-align: center; 
+            font-size: 24px; 
+            display: none; 
+            margin-top: 20px; 
+        }
+
+        .code-input {
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .link {
+    display: none;
+    font-size: 20px;
+    margin-top: 20px;
+    color: blue; 
+    text-decoration: none; 
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://disk.yandex.ru/d/9rJJcXq3WQuNWw" id="result-response" style="color: red; display: none;"></a>
+
+        <button class="play-button" onclick="showQuestion()">Играть</button>
+        <div class="question" id="question">
+            Вопрос: Какого цвета была твоя первая машина?
+            <div class="answer-buttons">
+                <button class="answer-button" onclick="showNumber()">Фиолетовая</button>
+                <button class="answer-button" onclick="showLoseButton(this)">Синяя</button>
+                <button class="answer-button" onclick="showLoseButton(this)">Зеленая</button>
+                <button class="answer-button" onclick="showLoseButton(this)">Красная</button>
+            </div>
+        </div>
+
+        <div class="second-question" id="second-question" style="display:none;">
+            <label for="answer2" style="font-size: 24px;">Второй вопрос: Какое было первое слово Арины?</label><br>
+            <input type="text" id="answer2" name="answer2" required>
+            <button class="check-button" onclick="checkAnswer()">Проверка</button>
+            <p id="response" style="color: red; display: none;">Попробуй еще раз</p> 
+        </div>
+
+        <div class="number" id="number" style="display:none;">
+            <h1></h1>
+        </div>
+
+        <div class="third-question" id="third-question">
+            Третий вопрос: Когда у Арины вылез первый зуб?
+            <div class="answer-buttons">
+                <button class="answer-button" onclick="checkThirdAnswer('5 лет')">5 лет</button>
+                <button class="answer-button" onclick="checkThirdAnswer('1 месяц')">1 месяц</button>
+                <button class="answer-button" onclick="checkThirdAnswer('2 недели')">2 недели</button>
+                <button class="answer-button" onclick="checkThirdAnswer('При рождении')">При рождении</button>
+                <button class="answer-button" onclick="checkThirdAnswer('4 месяца')">4 месяца</button>
+                <button class="answer-button" onclick="checkThirdAnswer('3 месяца')">3 месяца</button>
+                <button class="answer-button" onclick="checkThirdAnswer('3 года')">3 года</button>
+            </div>
+        </div>
+
+        <div class="fourth-question" id="fourth-question">
+            Четвертый вопрос: Как Юля хотела назвать мальчика?
+            <div class="answer-buttons">
+                <button class="answer-button" onclick="checkFourthAnswer('Дмитрий')">Дмитрий</button>
+                <button class="answer-button" onclick="checkFourthAnswer('Алексей')">Алексей</button>
+                <button class="answer-button" onclick="checkFourthAnswer('Барон')">Барон</button>
+                <button class="answer-button" onclick="checkFourthAnswer('Мирон')">Мирон</button>
+            </div>
+        </div>
+
+        <div class="fifth-question" id="fifth-question">
+            Пятый вопрос: Введите код
+            <div class="code-inputs">
+                <input type="text" class="code-input" id="code1" maxlength="1">
+                <input type="text" class="code-input" id="code2" maxlength="1">
+                <input type="text" class="code-input" id="code3" maxlength="1">
+                <input type="text" class="code-input" id="code4" maxlength="1">
+            </div>
+            <button class="check-button" onclick="checkCode()">Проверить код</button>
+            <p id="code-response" style="color: red; display: none;">Введите заново</p> 
+        </div>
+
+        <button class="lose-button" id="lose-button" onclick="resetGame()">Ты проиграл</button>
+        <button class="back-button" onclick="restartGame()">Назад</button>
+    </div>
+
+    <div class="footer">
+        Создано Крис и Георгием
+    </div>
+
+    <script>
+        let correctAnswersCount = 0;
+
+        function showQuestion() {
+            let playButton = document.querySelector('.play-button');
+            let question = document.querySelector('.question');
+            let loseButton = document.querySelector('.lose-button');
+            let answerButtons = document.querySelectorAll('.answer-button');
+            let backButton = document.querySelector('.back-button');
+
+            playButton.style.display = 'none';
+            question.style.display = 'block';
+            loseButton.style.display = 'none';
+            answerButtons.forEach(function(button) {
+                button.disabled = false;
+            });
+            backButton.style.display = 'block';
+        }
+
+        function showNumber() {
+            let question = document.querySelector('.question');
+            let number = document.querySelector('.number');
+            question.style.display = 'none';
+            number.innerHTML = '<h1>2</h1>';
+            number.style.display = 'block';
+            setTimeout(function() {
+                number.style.display = 'none';
+                showSecondQuestion();
+            }, 500);
+        }
+
+        function showSecondQuestion() {
+            let secondQuestion = document.querySelector('.second-question');
+            secondQuestion.style.display = 'block';
+        }
+
+        function showLoseButton(button) {
+            let loseButton = document.querySelector('.lose-button');
+            loseButton.style.display = 'block';
+            let answerButtons = document.querySelectorAll('.answer-button');
+            answerButtons.forEach(function(btn) {
+                btn.disabled = true;
+            });
+            button.disabled = false;
+        }
+
+        function resetGame() {
+            let playButton = document.querySelector('.play-button');
+            let question = document.querySelector('.question');
+            let secondQuestion = document.querySelector('.second-question');
+            let thirdQuestion = document.querySelector('.third-question');
+            let fourthQuestion = document.querySelector('.fourth-question');
+            let fifthQuestion = document.querySelector('.fifth-question');
+            let loseButton = document.querySelector('.lose-button');
+            let answerButtons = document.querySelectorAll('.answer-button');
+            let backButton = document.querySelector('.back-button');
+
+            question.style.display = 'none';
+            secondQuestion.style.display = 'none';
+            thirdQuestion.style.display = 'none';
+            fourthQuestion.style.display = 'none';
+            fifthQuestion.style.display = 'none';
+            loseButton.style.display = 'none';
+            playButton.style.display = 'block';
+            answerButtons.forEach(function(button) {
+                button.disabled = false;
+            });
+            correctAnswersCount = 0;
+            backButton.style.display = 'none';
+        }
+
+        function checkAnswer() {
+            let answerField = document.getElementById('answer2').value.toLowerCase();
+            let checkButton = document.querySelector('.check-button');
+            let response = document.getElementById('response');
+
+            if (answerField === 'папа') {
+                checkButton.style.backgroundColor = 'green';
+                correctAnswersCount++;
+                if (correctAnswersCount === 1) {
+                    document.querySelector('.second-question').style.display = 'none';
+                    document.querySelector('.number').innerHTML = '<h1>8</h1>';
+                    document.querySelector('.number').style.display = 'block';
+                    setTimeout(function() {
+                        document.querySelector('.number').style.display = 'none';
+                        showThirdQuestion();
+                    }, 500);
+                } else if (correctAnswersCount === 2) {
+                    showThirdQuestion();
+                }
+            } else {
+                response.style.display = 'block';
+            }
+        }
+
+        function showThirdQuestion() {
+            let thirdQuestion = document.querySelector('.third-question');
+            thirdQuestion.style.display = 'block';
+        }
+
+        function restartGame() {
+            let playButton = document.querySelector('.play-button');
+            let question = document.querySelector('.question');
+            let secondQuestion = document.querySelector('.second-question');
+            let thirdQuestion = document.querySelector('.third-question');
+            let fourthQuestion = document.querySelector('.fourth-question');
+            let fifthQuestion = document.querySelector('.fifth-question');
+            let loseButton = document.querySelector('.lose-button');
+            let answerButtons = document.querySelectorAll('.answer-button');
+            let resultResponse = document.getElementById('result-response')
+            let backButton = document.querySelector('.back-button');
+
+            question.style.display = 'none';
+            secondQuestion.style.display = 'none';
+            thirdQuestion.style.display = 'none';
+            fourthQuestion.style.display = 'none';
+            fifthQuestion.style.display = 'none';
+            loseButton.style.display = 'none';
+            playButton.style.display = 'block';
+            resultResponse.style.display = 'none'
+            answerButtons.forEach(function(button) {
+                button.disabled = false;
+            });
+            correctAnswersCount = 0;
+            backButton.style.display = 'none';
+        }
+
+        function checkThirdAnswer(answer) {
+            let thirdQuestion = document.querySelector('.third-question');
+            let number = document.querySelector('.number');
+            if (answer === '4 месяца') {
+                thirdQuestion.style.display = 'none';
+                number.innerHTML = '<h1>5</h1>';
+                number.style.display = 'block';
+                setTimeout(function() {
+                    number.style.display = 'none';
+                    showFourthQuestion();
+                }, 500);
+            } else {
+                showLoseButton();
+            }
+        }
+
+        function checkFourthAnswer(answer) {
+            let fourthQuestion = document.querySelector('.fourth-question');
+            let number = document.querySelector('.number');
+            if (answer === 'Мирон') {
+                fourthQuestion.style.display = 'none';
+                number.innerHTML = '<h1>0</h1>';
+                number.style.display = 'block';
+                setTimeout(function() {
+                    number.style.display = 'none';
+                    showFifthQuestion();
+                }, 500);
+            } else {
+                showLoseButton();
+            }
+        }
+
+        function showFourthQuestion() {
+            let fourthQuestion = document.querySelector('.fourth-question');
+            fourthQuestion.style.display = 'block';
+        }
+
+        function showFifthQuestion() {
+            let fifthQuestion = document.querySelector('.fifth-question');
+            fifthQuestion.style.display = 'block';
+        }
+
+function checkCode() {
+    let code1 = document.getElementById('code1').value;
+    let code2 = document.getElementById('code2').value;
+    let code3 = document.getElementById('code3').value;
+    let code4 = document.getElementById('code4').value;
+    let codeResponse = document.getElementById('code-response');
+    let resultResponse = document.getElementById('result-response')
+
+    if (code1 === '2' && code2 === '8' && code3 === '5' && code4 === '0') {
+        setTimeout(function() {
+            resultResponse.innerHTML = 'А тут у нас ссылка *КЛИК*';
+            resultResponse.style.display = 'flex'; 
+            resultResponse.style.justifyContent = 'center'; 
+            resultResponse.style.alignItems = 'center'; 
+        }, 1000); 
+        document.querySelector('.fifth-question').style.display = 'none';
+    } else {
+        codeResponse.innerHTML = 'Введите заново';
+        codeResponse.style.display = 'block'; 
+    }
+}
+
+/* Код создан криво-косо, много лишнего, судите не строго пжэ😒  */
+
+
+    </script>
+</body>
+</html>
